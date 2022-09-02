@@ -3,6 +3,10 @@ terraform {
     azurerm = {
       source = "hashicorp/azurerm"
     }
+
+    external = {
+      source = "hashicorp/external"
+    }
   }
 }
 
@@ -24,6 +28,17 @@ output "resource_group_id" {
 resource "azurerm_resource_group" "synapse_rg" {
   name     = var.resource_group_name
   location = "brazilsouth"
+}
+
+data "external" "myipaddr" {
+  program = ["bash", "-c", "curl -s 'https://api.ipify.org?format=json'"]
+}
+
+output "my_public_ip" {
+  value = data.external.myipaddr.result.ip
+}
+
+data "azurerm_client_config" "current" {
 }
 
 resource "azurerm_storage_account" "synapse_blob" {
@@ -80,9 +95,6 @@ JSON
   depends_on = [
     azurerm_synapse_firewall_rule.synapse_firewall,
   ]
-}
-
-data "azurerm_client_config" "current" {
 }
 
 resource "azurerm_role_assignment" "synapse_role" {

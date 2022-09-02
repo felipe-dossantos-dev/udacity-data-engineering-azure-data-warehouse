@@ -53,3 +53,9 @@ Include all items used to build project.
 ## License
 
 [License](LICENSE.txt)
+
+
+# TODO
+
+[ ] adicionar o postgres no terraform
+    [ ] pegar meu  ip para liberar no postgres
