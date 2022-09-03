@@ -98,31 +98,30 @@ resource "azurerm_synapse_sql_pool" "default_pool" {
 
 
 resource "azurerm_postgresql_flexible_server" "synapse_pg" {
-  name                   = "synapse-pg"
+  name                   = "synapse-pg-data"
   resource_group_name    = azurerm_resource_group.synapse_rg.name
   location               = azurerm_resource_group.synapse_rg.location
   version                = "14"
   administrator_login    = "psqladmin"
-  administrator_password = "H@Sh1CoR3!"
+  administrator_password = "Udacity2022"
   zone                   = "1"
 
   storage_mb = 32768
   sku_name   = "B_Standard_B1ms"
 }
 
-resource "azurerm_postgresql_flexible_server_firewall_rule" "synapse_pg" {
+resource "azurerm_postgresql_flexible_server_firewall_rule" "synapse_pg_me" {
   name             = "me"
   server_id        = azurerm_postgresql_flexible_server.synapse_pg.id
-  start_ip_address = "0.0.0.0"         # data.external.myipaddr.result.ip
-  end_ip_address   = "255.255.255.255" #data.external.myipaddr.result.ip
+  start_ip_address = data.external.myipaddr.result.ip
+  end_ip_address   = data.external.myipaddr.result.ip
 }
 
-
-resource "azurerm_postgresql_flexible_server_database" "synapse_db" {
-  name      = "synapse-db"
-  server_id = azurerm_postgresql_flexible_server.synapse_pg.id
-  collation = "en_US.utf8"
-  charset   = "utf8"
+resource "azurerm_postgresql_flexible_server_firewall_rule" "synapse_pg_azure" {
+  name             = "azure"
+  server_id        = azurerm_postgresql_flexible_server.synapse_pg.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
 }
 
 # resource "azurerm_synapse_managed_private_endpoint" "synapse_pvt_pg" {
@@ -140,11 +139,11 @@ resource "azurerm_synapse_linked_service" "pg_linked_service" {
   type                 = "AzurePostgreSql"
   type_properties_json = <<JSON
 {
-  "connectionString": "Server=${azurerm_postgresql_flexible_server.synapse_pg.fqdn};Database=synapse-db;Port=5432;UID=${azurerm_postgresql_flexible_server.synapse_pg.administrator_login};Password=${azurerm_postgresql_flexible_server.synapse_pg.administrator_password};Ssl Mode=Require;"
+  "connectionString": "Server=${azurerm_postgresql_flexible_server.synapse_pg.fqdn};Database=udacityproject;Port=5432;UID=${azurerm_postgresql_flexible_server.synapse_pg.administrator_login};Password=${azurerm_postgresql_flexible_server.synapse_pg.administrator_password};Ssl Mode=Require;"
 }
 JSON
 
   depends_on = [
-    azurerm_postgresql_flexible_server_firewall_rule.synapse_pg
+    azurerm_postgresql_flexible_server_firewall_rule.synapse_pg_azure
   ]
 }
