@@ -124,15 +124,6 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "synapse_pg_azure" {
   end_ip_address   = "0.0.0.0"
 }
 
-# resource "azurerm_synapse_managed_private_endpoint" "synapse_pvt_pg" {
-#   name                 = "synapse-pg-pvt"
-#   synapse_workspace_id = azurerm_synapse_workspace.synapse_workspace.id
-#   target_resource_id   = azurerm_postgresql_flexible_server.synapse_pg.id
-#   subresource_name     = "postgresqlServer"
-
-#   depends_on = [azurerm_postgresql_flexible_server_firewall_rule.synapse_pg]
-# }
-
 resource "azurerm_synapse_linked_service" "pg_linked_service" {
   name                 = "synapse_learn_pg_linked_service"
   synapse_workspace_id = azurerm_synapse_workspace.synapse_workspace.id
@@ -145,5 +136,20 @@ JSON
 
   depends_on = [
     azurerm_postgresql_flexible_server_firewall_rule.synapse_pg_azure
+  ]
+}
+
+resource "azurerm_synapse_linked_service" "blob_linked_service" {
+  name                 = "synapse_learn_blob_linked_service"
+  synapse_workspace_id = azurerm_synapse_workspace.synapse_workspace.id
+  type                 = "AzureBlobStorage"
+  type_properties_json = <<JSON
+{
+  "connectionString": "${azurerm_storage_account.synapse_blob.primary_connection_string}"
+}
+JSON
+
+  depends_on = [
+    azurerm_synapse_firewall_rule.synapse_firewall,
   ]
 }
