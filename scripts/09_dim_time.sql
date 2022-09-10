@@ -8,7 +8,8 @@ CREATE TABLE
     [hour_12] varchar(17) NULL,
     [hour_24] varchar(13) NULL,
     [notation_12] varchar(10) NULL,
-    [notation_24] varchar(10) NULL
+    [notation_24] varchar(10) NULL,
+    [minute_15] int null
   )
 WITH
   (
@@ -48,6 +49,9 @@ SET @notation_12 = '';
 
 DECLARE @notation_24 AS varchar(10);
 SET @notation_24 = '';
+
+DECLARE @minute_15 AS int;
+SET @minute_15 = 0;
 
 
 -- Loop 1440 times (24hours * 60minutes)
@@ -109,6 +113,8 @@ SELECT @hour = DATEPART(Hour, @Time) + 1;
 
 SELECT @minute = DATEPART(Minute, @Time) + 1;
 
+SELECT @minute_15 = (DATEPART(Minute, @Time) + 1) / 15;
+
 INSERT INTO
   dim_time (
     [time],
@@ -119,7 +125,8 @@ INSERT INTO
     [hour_12],
     [hour_24],
     [notation_12],
-    [notation_24]
+    [notation_24],
+    [minute_15]
   )
 VALUES
   (
@@ -131,7 +138,8 @@ VALUES
     @hour_12,
     @hour_24,
     @notation_12,
-    @notation_24
+    @notation_24,
+    @minute_15
   );
 
 -- Raise time with one minute
