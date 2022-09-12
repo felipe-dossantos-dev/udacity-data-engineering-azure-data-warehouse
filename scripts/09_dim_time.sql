@@ -113,7 +113,7 @@ SELECT @hour = DATEPART(Hour, @Time) + 1;
 
 SELECT @minute = DATEPART(Minute, @Time) + 1;
 
-SELECT @minute_15 = (DATEPART(Minute, @Time) + 1) / 15;
+SELECT @minute_15 = (DATEPART(Minute, @Time) / 15) + 1;
 
 INSERT INTO
   dim_time (
