@@ -109,11 +109,11 @@ SELECT @notation_12 = CONVERT(varchar(10), @Time, 100);
 
 SELECT @notation_24 = CAST(@Time as varchar(5));
 
-SELECT @hour = DATEPART(Hour, @Time) + 1;
+SELECT @hour = DATEPART(Hour, @Time);
 
-SELECT @minute = DATEPART(Minute, @Time) + 1;
+SELECT @minute = DATEPART(Minute, @Time);
 
-SELECT @minute_15 = (DATEPART(Minute, @Time) / 15) + 1;
+SELECT @minute_15 = DATEPART(Minute, @Time) / 15;
 
 INSERT INTO
   dim_time (

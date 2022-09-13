@@ -41,6 +41,10 @@ output "resource_group_id" {
   value = azurerm_resource_group.synapse_rg.id
 }
 
+output "synapse_workspace" {
+  value = azurerm_synapse_workspace.synapse_workspace.connectivity_endpoints
+}
+
 
 resource "azurerm_storage_account" "synapse_blob" {
   name                     = "synapselearnblob"

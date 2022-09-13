@@ -1,61 +1,72 @@
-# README Template
+# Udacity - Azure Data Engineering - Azure Data Warehouse
 
-Below is a template provided for use when building your README file for students.
+The goal of this project is to develop a data warehouse solution using Azure Synapse Analytics. You will:
 
-# Project Title
+- Design a star schema based on the business outcomes listed below;
+- Import the data into Synapse;
+- Transform the data into the star schema;
+- and finally, view the reports from Analytics.
 
-Project description goes here.
 
 ## Getting Started
 
-Instructions for how to get a copy of the project running on your local machine.
+Instructions for how to get a copy of the project running.
 
-### Dependencies
+## Terraform
 
+I used Terraform to create all resources for this project.
+
+### Configuring
+
+First install terraform following: https://learn.hashicorp.com/tutorials/terraform/install-cli
+
+Then, follow this tutorial to use terraform with Azure: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/azure_cli 
+
+### Running 
+
+``` bash
+terraform init
+terraform apply
 ```
-Examples here
+Wait some minutes and all the resources should be good to go.
+
+After run the initial script to insert information on the postgres database
 ```
+python starter/ProjectDataToPostgres.py
+``` 
 
-### Installation
+## Scripts
 
-Step by step explanation of how to get a dev environment running.
+All the scripts are on the folder ./scripts on the order to run.
 
-List out the steps
+## ER Diagram
 
-```
-Give an example here
-```
+![image info](./imgs/udacity-proj3.png)
 
-## Testing
+## Pipelines 
 
-Explain the steps needed to run any automated tests
+The followings screenshots will demonstrate is able to extract data from PostgreSQL into Azure Blob Storage.
 
-### Break Down Tests
+![image info](./imgs/pipeline-extract.JPG)
+![image info](./imgs/pipeline-extract-copy.JPG)
+![image info](./imgs/blob-extract-from-db.JPG)
 
-Explain what each test does and why
+## Bussines Outcomes
 
-```
-Examples here
-```
+The business outcomes you are designing for are as follows
 
-## Project Instructions
-
-This section should contain all the student deliverables for this project.
-
-## Built With
-
-* [Item1](www.item1.com) - Description of item
-* [Item2](www.item2.com) - Description of item
-* [Item3](www.item3.com) - Description of item
-
-Include all items used to build project.
+1. Analyze how much time is spent per ride
+    - Based on date and time factors such as day of week and time of day
+    - Based on which station is the starting and / or ending station
+    - Based on age of the rider at time of the ride
+    - Based on whether the rider is a member or a casual rider
+2. Analyze how much money is spent
+    - Per month, quarter, year
+    - Per member, based on the age of the rider at account start
+3. EXTRA CREDIT - Analyze how much money is spent per member
+    - Based on how many rides the rider averages per month
+    - Based on how many minutes the rider spends on a bike per month
 
 ## License
 
 [License](LICENSE.txt)
-
-
-# TODO
-
-[ ] adicionar o postgres no terraform
-    [ ] pegar meu  ip para liberar no postgres
