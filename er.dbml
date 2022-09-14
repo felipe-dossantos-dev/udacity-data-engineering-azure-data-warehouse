@@ -1,3 +1,5 @@
+// https://dbdiagram.io/d
+
 Table "dbo"."dim_date" as DD{
   "date" date [pk]
   "day" tinyint
@@ -61,7 +63,7 @@ Table "dbo"."fact_trip" as FT {
   "trip_id" nvarchar(400) [pk]
   "time_spent" int
   "rideable_type" nvarchar(50)
-  "rider_age" int
+  "rider_age_at_time" int
   "rider_id" bigint
   "start_station_id" nvarchar(400)
   "start_at_date" date
